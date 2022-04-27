@@ -1,3 +1,3 @@
-module github.com/kapralovs/user-client-client
+module client
 
 go 1.18
