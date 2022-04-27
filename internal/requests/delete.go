@@ -1,19 +1,23 @@
-package main
+package requests
 
 import (
 	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
+	"sync"
+	"time"
 )
 
-func main() {
+func Remove(wg *sync.WaitGroup, ch chan string, id int) {
+	defer wg.Done()
+	time.Sleep(1 * time.Second)
 	c := http.Client{}
 
 	urlUser := "http://127.0.0.1:8080/user"
 	authEncodedCreds := "U29tZVVlcjpzaW1wbGVzdFBhc3N3b3Jk"
 
-	req, err := http.NewRequest("GET", urlUser, nil)
+	req, err := http.NewRequest("DELETE", urlUser, nil)
 	if err != nil {
 		log.Println(err)
 	}
@@ -30,5 +34,5 @@ func main() {
 		log.Println(err)
 	}
 
-	fmt.Printf("Response from the get request by all users: %v\n", string(body))
+	ch <- fmt.Sprintf("Response from the GET request by all users: %v\n", string(body))
 }
